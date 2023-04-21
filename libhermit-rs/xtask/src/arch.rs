@@ -23,17 +23,17 @@ impl Arch {
 		}
 	}
 
-	pub fn hermit_triple(&self) -> &'static str {
+	pub fn monk_triple(&self) -> &'static str {
 		match self {
-			Arch::X86_64 => "x86_64-unknown-hermit",
-			Arch::AArch64 => "aarch64-unknown-hermit",
+			Arch::X86_64 => "x86_64-unknown-monk",
+			Arch::AArch64 => "aarch64-unknown-monk",
 		}
 	}
 
 	pub fn builtins_cargo_args(&self) -> &'static [&'static str] {
 		match self {
 			Arch::X86_64 => &[
-				"--target=x86_64-unknown-hermit",
+				"--target=../helloworld/x86_64-unknown-monk.json",
 				"-Zbuild-std=core",
 				"-Zbuild-std-features=compiler-builtins-mem",
 			],

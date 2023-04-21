@@ -188,7 +188,7 @@ impl flags::Build {
 	}
 
 	fn builtins_archive(&self) -> Archive {
-		let mut builtins_archive = self.out_dir(self.arch.hermit_triple());
+		let mut builtins_archive = self.out_dir(self.arch.monk_triple());
 		builtins_archive.push("libhermit_builtins.a");
 		builtins_archive.into()
 	}
