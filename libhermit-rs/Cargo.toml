@@ -1,0 +1,133 @@
+[package]
+name = "libhermit-rs"
+version = "0.6.1"
+authors = [
+	"Stefan Lankes <slankes@eonerc.rwth-aachen.de>",
+	"Colin Finck <colin.finck@rwth-aachen.de>",
+	"Martin Kröning <mkroening@posteo.net>",
+	"Frederik Schulz",
+	"Thomas Lambertz",
+	"Jonathan Klimt <jonathan.klimt@eonerc.rwth-aachen.de>",
+	"Jonathan Schwender",
+	"Daniel Krebs",
+	"Yu Duan",
+]
+license = "MIT OR Apache-2.0"
+readme = "README.md"
+keywords = ["unikernel", "libos"]
+categories = ["os"]
+repository = "https://github.com/hermitcore/libhermit-rs"
+documentation = "https://hermitcore.github.io/libhermit-rs/hermit/"
+edition = "2021"
+description = "A Rust-based library operating system"
+exclude = [
+	"/.github/*",
+	"/.vscode/*",
+	"/.gitlab-ci.yml",
+	"/Dockerfile",
+	"/img/*",
+	"./CMakeLists.txt",
+	".gitattributes",
+	".gitignore",
+]
+
+[lib]
+crate-type = ["staticlib", "lib"]  # "lib" required for integration tests
+name = "hermit"
+
+#[[test]]
+#name = "basic_print"
+#harness = false
+#
+#[[test]]
+#name = "basic_math"
+#harness = true
+#
+#[[test]]
+#name = "measure_startup_time"
+#harness = false
+
+[features]
+default = ["pci", "pci-ids", "acpi", "fsgsbase", "smp", "tcp", "dhcpv4"]
+vga = []
+newlib = []
+pci = []
+acpi = []
+smp = ["include-transformed"]
+fsgsbase = []
+trace = []
+tcp = [
+    "async-task",
+    "futures-lite",
+    "smoltcp",
+]
+dhcpv4 = [
+    "tcp",
+    "smoltcp/proto-dhcpv4",
+    "smoltcp/socket-dhcpv4",
+]
+
+[dependencies]
+ahash = { version = "0.8", default-features = false }
+align-address = "0.1"
+bitflags = "2.0"
+crossbeam-utils = { version = "0.8", default-features = false }
+dyn-clone = "1.0"
+hashbrown = { version = "0.13", default-features = false }
+hermit-entry = { version = "0.9", features = ["kernel"] }
+hermit-sync = "0.1.2"
+include-transformed = { version = "0.2", optional = true }
+linked_list_allocator = { version = "0.10", default-features = false }
+log = { version = "0.4", default-features = false }
+pci-ids = { version = "0.2", optional = true }
+pflock = "0.2"
+shell-words = { version = "1.1", default-features = false }
+qemu-exit = "3.0"
+rand_chacha = { version = "0.3", default-features = false }
+futures-lite = { version = "1.11", default-features = false, optional = true }
+async-task = { version = "4.4", default-features = false, optional = true }
+lock_api = "0.4"
+num = { version = "0.4", default-features = false }
+num-traits = { version = "0.2", default-features = false }
+num-derive = "0.3"
+
+[dependencies.smoltcp]
+version = "0.9"
+optional = true
+default-features = false
+features = [
+    "alloc",
+    "async",
+    "medium-ethernet",
+    "proto-ipv4",
+    "proto-ipv6",
+    "socket-tcp",
+    "socket-udp",
+    # Enable for increased output
+    # "log",
+    # "verbose",
+]
+
+[target.'cfg(target_arch = "x86_64")'.dependencies]
+multiboot = "0.8"
+time = { version = "0.3", default-features = false }
+uart_16550 = "0.2"
+x86 = { version = "0.52", default-features = false }
+x86_64 = "0.14"
+
+[dev-dependencies]
+float-cmp = "0.9"
+num-traits = { version = "0.2", default-features = false }
+x86 = { version = "0.52", default-features = false }
+
+[target.'cfg(target_arch = "aarch64")'.dependencies.aarch64]
+version = "0.0.7"
+default-features = false
+
+[workspace]
+members = [
+	"xtask",
+]
+exclude = [
+	"hermit-builtins",
+]

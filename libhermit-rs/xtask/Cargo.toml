@@ -1,0 +1,11 @@
+[package]
+name = "xtask"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1.0"
+goblin = { version = "0.6", default-features = false, features = ["archive", "elf32", "elf64", "std"] }
+llvm-tools = "0.1"
+xflags = "0.3"
+xshell = "0.2"
