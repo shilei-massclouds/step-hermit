@@ -1,0 +1,10 @@
+[package]
+name = "xtask"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1.0"
+llvm-tools = "0.1"
+xflags = "0.3"
+xshell = "0.2"
