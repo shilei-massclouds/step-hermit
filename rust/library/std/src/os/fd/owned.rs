@@ -9,7 +9,7 @@ use crate::fs;
 use crate::io;
 use crate::marker::PhantomData;
 use crate::mem::forget;
-#[cfg(not(any(target_arch = "wasm32", target_env = "sgx", target_os = "hermit")))]
+#[cfg(not(any(target_arch = "wasm32", target_env = "sgx", target_os = "hermit", target_os = "monk")))]
 use crate::sys::cvt;
 use crate::sys_common::{AsInner, FromInner, IntoInner};
 
@@ -89,7 +89,7 @@ impl OwnedFd {
 impl BorrowedFd<'_> {
     /// Creates a new `OwnedFd` instance that shares the same underlying file
     /// description as the existing `BorrowedFd` instance.
-    #[cfg(not(any(target_arch = "wasm32", target_os = "hermit")))]
+    #[cfg(not(any(target_arch = "wasm32", target_os = "hermit", target_os = "monk")))]
     #[stable(feature = "io_safety", since = "1.63.0")]
     pub fn try_clone_to_owned(&self) -> crate::io::Result<OwnedFd> {
         // We want to atomically duplicate this file descriptor and set the
@@ -112,7 +112,7 @@ impl BorrowedFd<'_> {
 
     /// Creates a new `OwnedFd` instance that shares the same underlying file
     /// description as the existing `BorrowedFd` instance.
-    #[cfg(any(target_arch = "wasm32", target_os = "hermit"))]
+    #[cfg(any(target_arch = "wasm32", target_os = "hermit", target_os = "monk"))]
     #[stable(feature = "io_safety", since = "1.63.0")]
     pub fn try_clone_to_owned(&self) -> crate::io::Result<OwnedFd> {
         Err(crate::io::const_io_error!(
@@ -174,9 +174,9 @@ impl Drop for OwnedFd {
             // the file descriptor was closed or not, and if we retried (for
             // something like EINTR), we might close another valid file descriptor
             // opened after we closed ours.
-            #[cfg(not(target_os = "hermit"))]
+            #[cfg(not(any(target_os = "hermit", target_os = "monk")))]
             let _ = libc::close(self.fd);
-            #[cfg(target_os = "hermit")]
+            #[cfg(any(target_os = "hermit", target_os = "monk"))]
             let _ = hermit_abi::close(self.fd);
         }
     }

@@ -91,6 +91,7 @@ impl Archive {
 		}
 
 		sh.write_file(archive_path, archive_bytes)?;
+        eprintln!("set_osabi: archive_path{:?}", archive_path);
 
 		Ok(())
 	}

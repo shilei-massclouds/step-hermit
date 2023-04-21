@@ -1,6 +1,6 @@
-#[cfg(target_os = "hermit")]
+#[cfg(target_os = "monk")]
 use hermit_sys as _;
 
 fn main() {
-    println!("Hello, world!");
+    println!("Hello, monk!");
 }

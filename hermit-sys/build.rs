@@ -10,7 +10,7 @@ fn main() {
 	// TODO: Replace with is_some_with once stabilized
 	// https://github.com/rust-lang/rust/issues/93050
 	let targets_hermit =
-		matches!(env::var_os("CARGO_CFG_TARGET_OS"), Some(os) if os == OsStr::new("hermit"));
+		matches!(env::var_os("CARGO_CFG_TARGET_OS"), Some(os) if os == OsStr::new("hermit") || os == OsStr::new("monk"));
 	let runs_clippy =
 		matches!(env::var_os("CARGO_CFG_FEATURE"), Some(os) if os == OsStr::new("cargo-clippy"));
 	let is_docs_rs = env::var_os("DOCS_RS").is_some();
@@ -111,6 +111,7 @@ impl KernelSrc {
 		);
 
         println!("before cargo build libhermit-rs");
+
 		let status = cmd.status().expect("failed to start kernel build");
 		assert!(status.success());
 
@@ -120,6 +121,7 @@ impl KernelSrc {
 			.canonicalize()
 			.unwrap();
 
+        eprintln!("lib_location {:?}", lib_location);
 		println!("cargo:rustc-link-search=native={}", lib_location.display());
 		println!("cargo:rustc-link-lib=static=hermit");
 

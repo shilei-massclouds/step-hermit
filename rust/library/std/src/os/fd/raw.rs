@@ -6,7 +6,9 @@ use crate::fs;
 use crate::io;
 #[cfg(target_os = "hermit")]
 use crate::os::hermit::io::OwnedFd;
-#[cfg(not(target_os = "hermit"))]
+#[cfg(target_os = "monk")]
+use crate::os::monk::io::OwnedFd;
+#[cfg(all(not(target_os = "hermit"), not(target_os = "monk")))]
 use crate::os::raw;
 #[cfg(all(doc, not(target_arch = "wasm32")))]
 use crate::os::unix::io::AsFd;
@@ -15,17 +17,17 @@ use crate::os::unix::io::OwnedFd;
 #[cfg(target_os = "wasi")]
 use crate::os::wasi::io::OwnedFd;
 use crate::sys_common::{AsInner, IntoInner};
-#[cfg(target_os = "hermit")]
+#[cfg(any(target_os = "hermit", target_os = "monk"))]
 use hermit_abi as libc;
 
 /// Raw file descriptors.
 #[rustc_allowed_through_unstable_modules]
 #[stable(feature = "rust1", since = "1.0.0")]
-#[cfg(not(target_os = "hermit"))]
+#[cfg(all(not(target_os = "hermit"), not(target_os = "monk")))]
 pub type RawFd = raw::c_int;
 #[rustc_allowed_through_unstable_modules]
 #[stable(feature = "rust1", since = "1.0.0")]
-#[cfg(target_os = "hermit")]
+#[cfg(any(target_os = "hermit", target_os = "monk"))]
 pub type RawFd = i32;
 
 /// A trait to extract the raw file descriptor from an underlying object.
