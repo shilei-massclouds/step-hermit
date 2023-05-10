@@ -7,5 +7,24 @@ edition = "2021"
 
 [dependencies]
 
-[target.'cfg(target_os = "monk")'.dependencies]
-hermit-sys = { path= "../hermit-sys" }
+#[target.'cfg(target_os = "monk")'.dependencies]
+#hermit = { path= "../libhermit-rs" }
+
+[features]
+acpi = []
+default = [
+    "acpi",
+    "pci",
+    "pci-ids",
+    "smp",
+    "fsgsbase",
+]
+dhcpv4 = []
+fsgsbase = []
+instrument = []
+pci = []
+pci-ids = ["pci"]
+smp = []
+tcp = []
+trace = []
+vga = []

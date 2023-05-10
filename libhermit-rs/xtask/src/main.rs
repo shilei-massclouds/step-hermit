@@ -19,7 +19,7 @@ fn main() -> Result<()> {
 
 impl flags::Xtask {
 	fn run(self) -> Result<()> {
-        //println!("subcommand: {:?}", self.subcommand);
+        eprintln!("subcommand: {:?}", self.subcommand);
 		match self.subcommand {
 			flags::XtaskCmd::Build(build) => build.run(),
 			flags::XtaskCmd::Clippy(clippy) => clippy.run(),
