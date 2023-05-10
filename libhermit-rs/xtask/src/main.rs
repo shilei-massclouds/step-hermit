@@ -22,7 +22,6 @@ impl flags::Xtask {
         eprintln!("subcommand: {:?}", self.subcommand);
 		match self.subcommand {
 			flags::XtaskCmd::Build(build) => build.run(),
-			flags::XtaskCmd::Clippy(clippy) => clippy.run(),
 		}
 	}
 }
@@ -31,6 +30,7 @@ impl flags::Build {
 	fn run(self) -> Result<()> {
 		let sh = sh()?;
 
+        /*
 		eprintln!("Building kernel");
         eprintln!("encoded_rustflags {:?}",
                   self.cargo_encoded_rustflags());
@@ -46,6 +46,7 @@ impl flags::Build {
                 eprintln!("{key}: {value}");
             }
         }
+        */
 
 		cmd!(sh, "cargo build")
 			.env("CARGO_ENCODED_RUSTFLAGS", self.cargo_encoded_rustflags()?)
@@ -91,29 +92,11 @@ impl flags::Build {
 	}
 
 	fn cargo_encoded_rustflags(&self) -> Result<String> {
-		let outer_rustflags = match env::var("CARGO_ENCODED_RUSTFLAGS") {
-			Ok(s) => Some(s),
-			Err(VarError::NotPresent) => None,
-			Err(err) => return Err(err.into()),
-		};
-        //eprintln!("outer_rustflags {:?}", outer_rustflags);
-		let mut rustflags = outer_rustflags
-			.as_deref()
-			.map(|s| vec![s])
-			.unwrap_or_default();
-
 		// TODO: Re-enable mutable-noalias
 		// https://github.com/hermitcore/libhermit-rs/issues/200
-		rustflags.push("-Zmutable-noalias=no");
-
-		if self.instrument_mcount {
-			rustflags.push("-Zinstrument-mcount");
-		}
-
-		rustflags.extend(self.arch.rustflags());
-
+		let rustflags = String::from("-Zmutable-noalias=no");
         //eprintln!("rustflags {:?}", rustflags);
-		Ok(rustflags.join("\x1f"))
+		Ok(rustflags)
 	}
 
 	fn target_dir_args(&self) -> [&OsStr; 2] {
@@ -203,45 +186,6 @@ impl flags::Build {
 		let mut dist_archive = self.out_dir(self.arch.name());
 		dist_archive.push("libhermit.a");
 		dist_archive.into()
-	}
-}
-
-impl flags::Clippy {
-	fn run(self) -> Result<()> {
-        panic!("Clippy ...");
-        /*
-		let sh = sh()?;
-
-		// TODO: Enable clippy for aarch64
-		// https://github.com/hermitcore/libhermit-rs/issues/381
-		#[allow(clippy::single_element_loop)]
-		for target in [Arch::X86_64] {
-			let target_args = target.cargo_args();
-			cmd!(sh, "cargo clippy {target_args...}").run()?;
-			cmd!(sh, "cargo clippy {target_args...}")
-				.arg("--no-default-features")
-				.run()?;
-			cmd!(sh, "cargo clippy {target_args...}")
-				.arg("--no-default-features")
-				.arg("--features=acpi,fsgsbase,pci,smp,vga")
-				.run()?;
-			// TODO: Enable clippy for newlib
-			// https://github.com/hermitcore/libhermit-rs/issues/470
-			// cmd!(sh, "cargo clippy {target_args...}")
-			// 	.arg("--no-default-features")
-			// 	.arg("--features=acpi,fsgsbase,newlib,smp,vga")
-			// 	.run()?;
-		}
-
-		cmd!(sh, "cargo clippy")
-			.arg("--manifest-path=hermit-builtins/Cargo.toml")
-			.arg("--target=x86_64-unknown-none")
-			.run()?;
-
-		cmd!(sh, "cargo clippy --package xtask").run()?;
-
-		Ok(())
-        */
 	}
 }
 

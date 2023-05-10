@@ -25,9 +25,6 @@ xflags::xflags! {
 			/// Enable the `-Z instrument-mcount` flag.
 			optional --instrument-mcount
 		}
-
-		/// Run clippy for all targets.
-		cmd clippy {}
 	}
 }
 
@@ -42,7 +39,6 @@ pub struct Xtask {
 #[derive(Debug)]
 pub enum XtaskCmd {
 	Build(Build),
-	Clippy(Clippy),
 }
 
 #[derive(Debug)]
@@ -55,9 +51,6 @@ pub struct Build {
 	pub profile: Option<String>,
 	pub instrument_mcount: bool,
 }
-
-#[derive(Debug)]
-pub struct Clippy;
 
 impl Xtask {
 	#[allow(dead_code)]
