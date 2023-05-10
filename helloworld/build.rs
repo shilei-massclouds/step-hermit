@@ -1,12 +1,6 @@
 use std::env;
-use std::ffi::OsStr;
 use std::path::PathBuf;
 use std::process::Command;
-
-/*
-use flate2::read::GzDecoder;
-use tar::Archive;
-*/
 
 fn main() {
     // libhermit-rs source dir
