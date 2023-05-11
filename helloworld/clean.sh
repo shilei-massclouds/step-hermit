@@ -5,5 +5,3 @@ cargo clean -Zbuild-std=core,alloc,std,panic_abort \
 rm -rf ./rusty-loader/target
 
 rm -rf ../libhermit-rs/x86_64* ../libhermit-rs/debug
-
-    #--target x86_64-unknown-hermit

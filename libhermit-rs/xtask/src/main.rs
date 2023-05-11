@@ -46,7 +46,6 @@ impl flags::Build {
                 eprintln!("{key}: {value}");
             }
         }
-        */
 
 		cmd!(sh, "cargo build")
 			.env("CARGO_ENCODED_RUSTFLAGS", self.cargo_encoded_rustflags()?)
@@ -56,9 +55,12 @@ impl flags::Build {
 			.args(self.features_args())
 			.args(self.profile_args())
 			.run()?;
+        */
+		cmd!(sh, "./build.sh").run();
 
-		let build_archive = self.build_archive();
+		//let build_archive = self.build_archive();
 		let dist_archive = self.dist_archive();
+        /*
 		eprintln!(
 			"Copying {} to {}",
 			build_archive.as_ref().display(),
@@ -66,6 +68,7 @@ impl flags::Build {
 		);
 		sh.create_dir(dist_archive.as_ref().parent().unwrap())?;
 		sh.copy_file(&build_archive, &dist_archive)?;
+        */
 
 		self.export_syms()?;
 
@@ -88,6 +91,7 @@ impl flags::Build {
 		dist_archive.set_osabi()?;
 
 		eprintln!("Kernel available at {}", dist_archive.as_ref().display());
+    //panic!("################ Here!");
 		Ok(())
 	}
 
@@ -192,7 +196,7 @@ impl flags::Build {
 fn sh() -> Result<Shell> {
 	let sh = Shell::new()?;
 	let project_root = Path::new(env!("CARGO_MANIFEST_DIR")).parent().unwrap();
-    println!("project {:?}", project_root);
+    eprintln!("project {:?}", project_root);
 	sh.change_dir(project_root);
 	Ok(sh)
 }
