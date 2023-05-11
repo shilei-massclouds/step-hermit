@@ -51,6 +51,8 @@ impl Archive {
 
 		let rename_path = archive.with_extension("redefine-syms");
         eprintln!("rename_path {:?}", rename_path);
+        eprintln!("### prefix {:?} archive {:?}", prefix, archive);
+        panic!("Here!");
 		sh.write_file(&rename_path, symbol_renames)?;
 
 		let objcopy = binutil("objcopy")?;

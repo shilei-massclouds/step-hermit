@@ -70,7 +70,6 @@ impl flags::Build {
 		sh.copy_file(&build_archive, &dist_archive)?;
 
 		self.export_syms()?;
-        */
 
 		eprintln!("Building hermit-builtins");
 		cmd!(sh, "cargo build")
@@ -79,11 +78,15 @@ impl flags::Build {
 			.args(self.target_dir_args())
 			.args(self.profile_args())
 			.run()?;
+        */
 
 		eprintln!("Exporting hermit-builtins symbols");
+        //panic!("here!");
 		let builtins = self.builtins_archive();
+        /*
 		let builtin_symbols = sh.read_file("hermit-builtins/exports")?;
 		builtins.retain_symbols(builtin_symbols.lines())?;
+        */
 
 		dist_archive.append(&builtins)?;
 
