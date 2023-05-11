@@ -29,3 +29,5 @@ cat $WORK_DIR/hermit-builtins/exports | xargs -Isymbol echo 'libhermit_builtins_
 
 objcopy --prefix-symbols=libhermit_builtins_ $WORK_DIR/x86_64-unknown-monk/debug/libhermit_builtins.a
 objcopy --redefine-syms=$WORK_DIR/x86_64-unknown-monk/debug/libhermit_builtins.redefine-syms $WORK_DIR/x86_64-unknown-monk/debug/libhermit_builtins.a
+
+ar qL $DIST_ARCHIVE $WORK_DIR/x86_64-unknown-monk/debug/libhermit_builtins.a

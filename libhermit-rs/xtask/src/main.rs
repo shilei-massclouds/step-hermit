@@ -86,12 +86,12 @@ impl flags::Build {
         /*
 		let builtin_symbols = sh.read_file("hermit-builtins/exports")?;
 		builtins.retain_symbols(builtin_symbols.lines())?;
-        */
 
 		dist_archive.append(&builtins)?;
+        */
 
 		eprintln!("Setting OSABI");
-		dist_archive.set_osabi()?;
+		//dist_archive.set_osabi()?;
 
 		eprintln!("Kernel available at {}", dist_archive.as_ref().display());
     //panic!("################ Here!");

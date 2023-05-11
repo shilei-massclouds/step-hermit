@@ -69,9 +69,10 @@ impl Archive {
 		let archive = self.as_ref();
 		let file = file.as_ref();
 
-        eprintln!("###Append {:?}", file);
+        eprintln!("###Append {:?} {:?}", archive, file);
 		let ar = binutil("ar")?;
 		cmd!(sh, "{ar} qL {archive} {file}").run()?;
+        panic!("###### Here!");
 
 		Ok(())
 	}
