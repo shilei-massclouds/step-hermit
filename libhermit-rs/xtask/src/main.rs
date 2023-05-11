@@ -68,9 +68,9 @@ impl flags::Build {
 		);
 		sh.create_dir(dist_archive.as_ref().parent().unwrap())?;
 		sh.copy_file(&build_archive, &dist_archive)?;
-        */
 
 		self.export_syms()?;
+        */
 
 		eprintln!("Building hermit-builtins");
 		cmd!(sh, "cargo build")
