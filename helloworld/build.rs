@@ -3,6 +3,7 @@ use std::path::PathBuf;
 
 fn main() {
     // libhermit-rs source dir
+ /*
 	let mut src_dir = PathBuf::from(env::var_os("CARGO_MANIFEST_DIR").unwrap());
 	src_dir.set_file_name("libhermit-rs");
 	if ! src_dir.exists() {
@@ -20,6 +21,7 @@ fn main() {
 
 	let arch = env::var_os("CARGO_CFG_TARGET_ARCH").unwrap();
 	let profile = env::var("PROFILE").expect("PROFILE was not set");
+    */
 
     /*
 	let mut cmd = Command::new("cargo");
@@ -65,6 +67,7 @@ fn main() {
     assert!(status.success());
     */
 
+    /*
     let lib_location = target_dir
         .join(&arch)
         .join(&profile)
@@ -78,10 +81,12 @@ fn main() {
     println!("cargo:rerun-if-changed={}", src_dir.display());
     // HERMIT_LOG_LEVEL_FILTER sets the log level filter at compile time
     println!("cargo:rerun-if-env-changed=HERMIT_LOG_LEVEL_FILTER");
+    */
 
     //eprintln!("###### cmd: {:?}", cmd);
 }
 
+/*
 fn target_dir() -> PathBuf {
 	let mut target_dir: PathBuf = env::var_os("PWD").unwrap().into();
 	target_dir.pop();
@@ -89,7 +94,6 @@ fn target_dir() -> PathBuf {
 	target_dir
 }
 
-/*
 fn has_feature(feature: &str) -> bool {
 	let mut var = "CARGO_FEATURE_".to_string();
 
