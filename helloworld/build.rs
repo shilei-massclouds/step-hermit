@@ -1,6 +1,5 @@
 use std::env;
 use std::path::PathBuf;
-use std::process::Command;
 
 fn main() {
     // libhermit-rs source dir
@@ -22,6 +21,7 @@ fn main() {
 	let arch = env::var_os("CARGO_CFG_TARGET_ARCH").unwrap();
 	let profile = env::var("PROFILE").expect("PROFILE was not set");
 
+    /*
 	let mut cmd = Command::new("cargo");
 
 	// Remove rust-toolchain-specific environment variables from kernel cargo
@@ -63,6 +63,7 @@ fn main() {
 
     let status = cmd.status().expect("failed to start kernel build");
     assert!(status.success());
+    */
 
     let lib_location = target_dir
         .join(&arch)
@@ -78,7 +79,7 @@ fn main() {
     // HERMIT_LOG_LEVEL_FILTER sets the log level filter at compile time
     println!("cargo:rerun-if-env-changed=HERMIT_LOG_LEVEL_FILTER");
 
-    eprintln!("###### cmd: {:?}", cmd);
+    //eprintln!("###### cmd: {:?}", cmd);
 }
 
 fn target_dir() -> PathBuf {
@@ -88,6 +89,7 @@ fn target_dir() -> PathBuf {
 	target_dir
 }
 
+/*
 fn has_feature(feature: &str) -> bool {
 	let mut var = "CARGO_FEATURE_".to_string();
 
@@ -105,3 +107,4 @@ fn forward_features<'a>(cmd: &mut Command, features: impl Iterator<Item = &'a st
 		cmd.args(["--features", &features.join(" ")]);
 	}
 }
+*/
