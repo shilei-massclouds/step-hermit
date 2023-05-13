@@ -15,11 +15,14 @@ $(APP): $(LIB) FORCE
 $(LIB): FORCE
 	make -C $@
 
+run: build justrun
+
 justrun:
 	make -C $(APP) justrun
 
 clean:
 	make -C $(APP) clean
+
 FORCE:
 
 .PHONY: all build clean run justrun FORCE
